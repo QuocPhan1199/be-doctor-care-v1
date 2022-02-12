@@ -1,8 +1,8 @@
 const express = require('express')
 const router = express.Router()
-const ControllerAccount = require('../controllers/ControllerAccount')
-const ControllerDoctor = require('../controllers/ControllerDoctor')
-const ControllerUser = require('../controllers/ControllerUser')
+const ControllerAccount = require('../controllers/Account')
+const ControllerDoctor = require('../controllers/Doctor')
+const ControllerUser = require('../controllers/User')
 const Authorization = require('../utils/authorization')
 const auth = require('../middlewares/auth')
 const req = require('express/lib/request')
@@ -36,4 +36,13 @@ router.get('/get-all-user', ControllerUser.getAllUser)
 router.put('/change-password', auth, Authorization.roleAuthorization(['customer', 'admin']), ControllerAccount.changePassword)
 //Search
 router.get('/search-doctor',ControllerUser.SearchDoctor)
+
+//Schedule
+const Schedule = require('../controllers/Schedule')
+router.post('/create-schedule',auth, Authorization.roleAuthorization(['doctor','admin']),Schedule.CreateSchedule)
+router.get('/get-schedule', auth, Authorization.roleAuthorization(['doctor','admin']), Schedule.getScheduleId)
+router.get('/get-all-schedule', auth, Authorization.roleAuthorization(['doctor','admin']), Schedule.getAllSchedule)
+router.put('/update-schedule/:id', auth, Authorization.roleAuthorization(['doctor', 'admin']), Schedule.updateSchedule)
+router.delete('/delete-schedule/:id', auth, Authorization.roleAuthorization(['doctor','admin']), Schedule.deleteSchedule)
+
 module.exports = router

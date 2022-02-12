@@ -4,7 +4,8 @@ const ServiceUser = require('../services/ServiceAccount')
 async function register (req, res){
     try{
     const body = req.body
-    if(body.password != body.password_again){
+    console.log(body.password_1)
+    if(body.password != body.password_1){
         return res.status(400).json({ status: 400, message: "The password is incorrect! Please try again." })
     }
     const account = await ServiceUser.register(body)
